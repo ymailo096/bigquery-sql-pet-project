@@ -24,5 +24,45 @@
 * Після фільтрації зафіксовано **94 очищених замовлення** від клієнтів.
 * Перевірка зв'язків показала **0 «завислих» замовлень** — кожен фрахт має або чіткий номер кругорейсу (41 замовлення), або прив'язаний автомобіль для односторонніх поїздок (53 замовлення). Дані повністю цілісні та готові до бізнес-аналізу.
 ## 📐 Схема даних (Database Schema)
+📐 Схема даних (Database Schema)
 
+![schema](schema.png)
+
+```sql
+-- ==========================================
+-- 📐 СХЕМА ДАНИХ (DATABASE SCHEMA)
+-- Побудовано за правилами 3NF (Зіркова схема)
+-- ==========================================
+
+-- 1. Створення довідника географії
+CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_geography` (
+  geography_id INT64,
+  full_address STRING
+);
+
+-- 2. Створення довідника менеджерів
+CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_managers` (
+  manager_id INT64,
+  manager_name STRING
+);
+
+-- 3. Створення довідника автомобілів (Траків)
+CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_trucks` (
+  truck_id INT64,
+  truck_number STRING
+);
+
+-- 4. Створення фінальної таблиці фактів замовлень
+CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
+  internal_order_id INT64,
+  loading_geography_id INT64,
+  unloading_geography_id INT64,
+  manager_id INT64,
+  truck_id INT64,
+  price_eur FLOAT64,
+  distance_km INT64,
+  order_date DATE,
+  unloading_date DATE,
+  invoice_date DATE
+);
 
