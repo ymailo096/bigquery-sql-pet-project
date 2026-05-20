@@ -27,6 +27,9 @@
 📐 Схема даних (Database Schema)
 
 ![schema](schema.png)
+![schema](schema.png)
+
+```sql
 -- ==========================================
 -- 📐 СХЕМА ДАНИХ (DATABASE SCHEMA)
 -- Побудовано за правилами 3NF (Зіркова схема)
@@ -63,4 +66,3 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
   unloading_date DATE,
   invoice_date DATE
 );
-
