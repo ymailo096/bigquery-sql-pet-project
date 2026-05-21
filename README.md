@@ -68,3 +68,12 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
   unloading_date DATE,
   invoice_date DATE
 );
+## ⚙️ Етап 3: Трансформація (ETL)
+
+Скрипт [`scripts/02_transformation.sql`](scripts/02_transformation.sql) 
+виконує повну трансформацію сирих даних у зіркову схему:
+
+- `dim_managers` — довідник менеджерів (3 записи)
+- `dim_geography` — унікальні адреси завантажень/розвантажень
+- `fct_orders` — таблиця фактів з очищеними фінансами та датами
+
