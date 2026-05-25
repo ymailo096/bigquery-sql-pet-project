@@ -62,7 +62,7 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_trucks` (
 );
 
 CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
-  internal_order_id     STRING,,
+  internal_order_id     STRING,
   loading_geography_id INT64,
   unloading_geography_id INT64,
   manager_id           INT64,
