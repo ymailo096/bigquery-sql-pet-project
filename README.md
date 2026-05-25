@@ -95,7 +95,7 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
 ### ▶️ Переглянути інтерактивну версію
 
 Ви можете спробувати попрацювати з фільтрами дат та менеджерів у **живій версії дашборду на Tableau Public**:
-[**ПОСИЛАННЯ НА ТВІЙ ДАШБОРД ТУТ**](https://public.tableau.com/app/profile/yaroslav.mailo/viz/Logistics_Analytics_August_2024/Logistics_Analytics_August_2024)
+[**ПОСИЛАННЯ НА ТВІЙ ДАШБОРД ТУТ**](https://public.tableau.com/views/Logistics_Analytics_August_2024/LogisticsAnalyticsAugust2024?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ### 🖼️ Скріншот дашборду
 ![Логістичний дашборд](dashboard_preview.png.png)
