@@ -98,4 +98,4 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
 [**ПОСИЛАННЯ НА ТВІЙ ДАШБОРД ТУТ**](https://public.tableau.com/app/profile/yaroslav.mailo/viz/Logistics_Analytics_August_2024/Logistics_Analytics_August_2024)
 
 ### 🖼️ Скріншот дашборду
-![Логістичний дашборд](dashboard_preview.png)
+![Логістичний дашборд](dashboard_preview.png.png)
