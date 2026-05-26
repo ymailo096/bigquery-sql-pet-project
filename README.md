@@ -12,16 +12,19 @@
 | dbdiagram.io    | Моделювання схеми          |
 | Tableau Public  | Візуалізація та дашборд    |
 
-## Архітектура проєкту 
+## Архітектура проєкту
+
+```
 stg_raw_august   ← сирі дані (Google Sheets → BigQuery)
-↓
-ETL / SQL
-↓
+       ↓
+   ETL / SQL
+       ↓
 dim_managers     ← довідник менеджерів
 dim_geography    ← довідник унікальних адрес
 dim_trucks       ← довідник автомобілів
-↓
-fct_orders    ← таблиця фактів (Star Schema)
+       ↓
+   fct_orders    ← таблиця фактів (Star Schema)
+```
 
 ## Етап 1 — Проєктування та нормалізація
 
