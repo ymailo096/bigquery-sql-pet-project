@@ -4,15 +4,15 @@
 
 ## 🛠️ Технологічний стек
 
-| Інструмент      | Призначення                     |
-|-----------------|---------------------------------|
-| Google BigQuery | Сховище даних (Sandbox)         |
-| GoogleSQL       | Трансформація та аналітика      |
-| Google Sheets   | Джерело сирих даних             |
-| dbdiagram.io    | Моделювання схеми               |
-| Tableau Public  | Візуалізація та дашборд         |
+| Інструмент      | Призначення                |
+|-----------------|----------------------------|
+| Google BigQuery | Сховище даних (Sandbox)    |
+| GoogleSQL       | Трансформація та аналітика |
+| Google Sheets   | Джерело сирих даних        |
+| dbdiagram.io    | Моделювання схеми          |
+| Tableau Public  | Візуалізація та дашборд    |
 
-## Архітектура проєкту
+## Архітектура проєкту 
 stg_raw_august   ← сирі дані (Google Sheets → BigQuery)
 ↓
 ETL / SQL
@@ -21,14 +21,15 @@ dim_managers     ← довідник менеджерів
 dim_geography    ← довідник унікальних адрес
 dim_trucks       ← довідник автомобілів
 ↓
-fct_orders     ← таблиця фактів (Star Schema)
+fct_orders    ← таблиця фактів (Star Schema)
+
 ## Етап 1 — Проєктування та нормалізація
 
 Сирі дані містили типові аномалії реального бізнесу: дублікати, порожні рядки, фінансові значення у вигляді тексту (`€1 150,00`), дати у форматі `ДД.ММ.РРРР` та транзитивні залежності адрес.
 
 Дані приведені до **3NF** та розподілені на зіркову схему:
 
-- `fct_orders` — факти замовлень: метрики (`price_eur`, `distance_km`), дати життєвого циклу, зовнішні ключі до довідників
+- `fct_orders` — факти замовлень: метрики (`price_eur`, `distance_km`), дати завантаження та розвантаження, зовнішні ключі до довідників
 - `dim_managers` — менеджери (логісти)
 - `dim_trucks` — реєстраційні номери автомобілів
 - `dim_geography` — унікальні точки завантажень та розвантажень
@@ -43,7 +44,7 @@ fct_orders     ← таблиця фактів (Star Schema)
 
 ## Етап 3 — Схема даних
 
-![schema](schema .png)
+![schema](schema.png)
 
 ```sql
 CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_geography` (
@@ -66,12 +67,10 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
   loading_geography_id   INT64,
   unloading_geography_id INT64,
   manager_id             INT64,
-  truck_id               INT64,
   price_eur              FLOAT64,
   distance_km            INT64,
-  order_date             DATE,
-  unloading_date         DATE,
-  invoice_date           DATE
+  loading_date           DATE,
+  unloading_date         DATE
 );
 ```
 
@@ -82,6 +81,7 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
 - `dim_managers` — 3 менеджери з `UNION ALL`
 - `dim_geography` — унікальні адреси через `UNION DISTINCT` завантажень і розвантажень
 - `fct_orders` — факти з `LEFT JOIN` до всіх довідників, очищеними фінансами та датами
+- `vw_tableau_final` — аналітична вʼюха з `eur_per_km`, `days_in_transit` та кодами країн для Tableau
 
 ## 📊 Аналітичний дашборд (Tableau)
 
