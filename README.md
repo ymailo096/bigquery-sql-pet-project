@@ -43,7 +43,7 @@ dim_trucks       ← довідник автомобілів
 - **Дати:** формат `ДД.ММ.РРРР` → `YYYY-MM-DD` через `SAFE.PARSE_DATE`
 - **Цілісність:** 94 замовлення, 0 "завислих" записів після фільтрації
 
-Скрипт: [`scripts/01_data_quality_checks.sql`](scripts/01_data_quality_checks.sql)
+Перевірка якості даних : [`scripts/01_data_quality_checks.sql`](scripts/01_data_quality_checks.sql)
 
 ## Етап 3 — Схема даних
 
