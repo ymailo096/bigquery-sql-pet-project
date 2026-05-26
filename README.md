@@ -1,34 +1,10 @@
-# BigQuery SQL Pet Project: Logistics Data Warehouse
-
-Цей проєкт демонструє повний цикл перетворення сирих логістичних даних із Google Sheets у нормалізоване сховище даних у Google BigQuery за архітектурою «Зірка» (Star Schema) — від очищення та типізації до побудови аналітичних запитів.
-
-## 🛠️ Технологічний стек
-
-| Інструмент | Призначення |
-|---|---|
-| Google BigQuery | Сховище даних (Sandbox) |
-| GoogleSQL | Трансформація та аналітика |
-| Google Sheets | Джерело сирих даних |
-| dbdiagram.io | Моделювання схеми |
-
-## Архітектура проєкту
-stg_raw_august        ← сирі дані (Google Sheets → BigQuery)
-↓
-ETL / SQL
-↓
-dim_managers          ← довідник менеджерів
-dim_geography         ← довідник унікальних адрес
-dim_trucks            ← довідник автомобілів
-↓
-fct_orders         ← таблиця фактів (Star Schema)
-
 ## Етап 1 — Проєктування та нормалізація
 
 Сирі дані містили типові аномалії реального бізнесу: дублікати, порожні рядки, фінансові значення у вигляді тексту (`€1 150,00`), дати у форматі `ДД.ММ.РРРР` та транзитивні залежності адрес.
 
 Дані приведені до **3NF** та розподілені на зіркову схему:
 
-- `fct_orders` — факти замовлень: метрики (`price_eur`, `distance_km`), три дати життєвого циклу, зовнішні ключі до довідників
+- `fct_orders` — факти замовлень: метрики (`price_eur`, `distance_km`), дати життєвого циклу, зовнішні ключі до довідників
 - `dim_managers` — менеджери (логісти)
 - `dim_trucks` — реєстраційні номери автомобілів
 - `dim_geography` — унікальні точки завантажень та розвантажень
@@ -62,16 +38,16 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_trucks` (
 );
 
 CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
-  internal_order_id     STRING,
-  loading_geography_id INT64,
+  internal_order_id      STRING,
+  loading_geography_id   INT64,
   unloading_geography_id INT64,
-  manager_id           INT64,
-  truck_id             INT64,
-  price_eur            FLOAT64,
-  distance_km          INT64,
-  order_date           DATE,
-  unloading_date       DATE,
-  invoice_date         DATE
+  manager_id             INT64,
+  truck_id               INT64,
+  price_eur              FLOAT64,
+  distance_km            INT64,
+  order_date             DATE,
+  unloading_date         DATE,
+  invoice_date           DATE
 );
 ```
 
@@ -83,19 +59,16 @@ CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.fct_orders` (
 - `dim_geography` — унікальні адреси через `UNION DISTINCT` завантажень і розвантажень
 - `fct_orders` — факти з `LEFT JOIN` до всіх довідників, очищеними фінансами та датами
 
-- ## 📊 Аналітичний Дашборд (Tableau)
+## 📊 Аналітичний дашборд (Tableau)
 
-На основі побудованої Star Schema був розроблений інтерактивний дашборд у Tableau Public для візуалізації ключових метрик логістики за серпень 2024 року.
+На основі побудованої Star Schema розроблений інтерактивний дашборд у Tableau Public для візуалізації ключових метрик логістики за серпень 2024 року.
 
-**Основні інсайти дашборду:**
--   **Ефективність менеджерів:** MAILO лідирує за доходом, а KUBRAK — за кількістю замовлень.
--   **Географія:** Карта показує концентрацію замовлень у Центральній Європі (Франція, Італія, Німеччина).
--   **Динаміка:** Графік `Daily Revenue` дозволяє відстежувати піки навантаження по днях.
+**Ключові інсайти:**
+- **Менеджери:** MAILO лідирує за доходом (€47,265), KUBRAK — за кількістю замовлень (27)
+- **Географія:** CZ домінує як точка призначення з сумарним доходом €55,895
+- **Ефективність маршрутів:** CZ→CZ показує середній €/km у 3x вище за інші напрямки
+- **Динаміка:** піки навантаження припадають на 7-8 та 19-21 серпня
 
-### ▶️ Переглянути інтерактивну версію
+▶️ [Переглянути дашборд на Tableau Public](https://public.tableau.com/views/Logistics_Analytics_August_2024/LogisticsAnalyticsAugust2024)
 
-Ви можете спробувати попрацювати з фільтрами дат та менеджерів у **живій версії дашборду на Tableau Public**:
-[**ПОСИЛАННЯ НА ТВІЙ ДАШБОРД ТУТ**](https://public.tableau.com/views/Logistics_Analytics_August_2024/LogisticsAnalyticsAugust2024?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
-
-### 🖼️ Скріншот дашборду
-![Логістичний дашборд](dashboard_preview.png.png)
+![Логістичний дашборд](dashboard_preview.png)
