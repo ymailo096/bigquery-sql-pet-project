@@ -43,7 +43,7 @@ fct_orders     ← таблиця фактів (Star Schema)
 
 ## Етап 3 — Схема даних
 
-![schema](schema.png)
+![schema](schema .png)
 
 ```sql
 CREATE OR REPLACE TABLE `pet-project-ymailo.pet_project.dim_geography` (
